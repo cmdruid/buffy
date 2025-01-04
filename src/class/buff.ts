@@ -35,10 +35,7 @@ export default class Buff extends Uint8Array {
     size   ?: number,
     endian ?: Endian
   ) {
-    if (
-      data instanceof Buff &&
-      size === undefined
-    ) {
+    if (data instanceof Buff && size === undefined) {
       return data
     }
 
@@ -47,49 +44,36 @@ export default class Buff extends Uint8Array {
   }
 
   get arr () : number[] {
-    return [ ...this ]
-  }
-
-  get num () : number {
-    return this.to_num()
+    return this.to_arr()
   }
 
   get big () : bigint {
     return this.to_big()
   }
 
-  get str () : string {
-    return this.to_str()
+  get bin () : string {
+    return this.to_bin()
   }
 
   get hex () : string {
     return this.to_hex()
   }
 
+  get num () : number {
+    return this.to_num()
+  }
+
+  get str () : string {
+    return this.to_str()
+  }
+
   get uint () : Uint8Array {
-    return new Uint8Array(this)
+    return this.to_uint()
   }
 
-  get bin () : string {
-    return this.to_bin()
-  }
-
-  to_num (endian : Endian = 'be') : number {
-    const bytes = (endian === 'be')
-      ? this.reverse()
-      : this
-    return Lib.bytes_to_num(bytes)
-  }
-
-  to_big (endian : Endian = 'be') : bigint {
-    const bytes = (endian === 'be')
-      ? this.reverse()
-      : this
+  to_big () : bigint {
+    const bytes = this.uint.reverse()
     return Lib.bytes_to_big(bytes)
-  }
-
-  to_bin () : string {
-    return Lib.bytes_to_bin(this)
   }
 
   to_json <T = any> (reviver ?: Reviver) : T {
@@ -100,9 +84,16 @@ export default class Buff extends Uint8Array {
     return JSON.parse(str, reviver)
   }
 
-  to_str   () : string     { return Lib.bytes_to_str(this) }
+  to_num () : number {
+    const bytes = this.uint.reverse()
+    return Lib.bytes_to_num(bytes)
+  }
+
+  to_arr   () : number[]   { return [ ...this ]            }
+  to_bin   () : string     { return Lib.bytes_to_bin(this) }
   to_hex   () : string     { return Lib.bytes_to_hex(this) }
-  to_uint  () : Uint8Array { return new Uint8Array(this) }
+  to_str   () : string     { return Lib.bytes_to_str(this) }
+  to_uint  () : Uint8Array { return new Uint8Array(this)   }
 
   append (data : Bytes) : Buff {
     return Buff.join([ this, Buff.bytes(data) ])
@@ -121,13 +112,13 @@ export default class Buff extends Uint8Array {
     return this
   }
 
+  set (array : ArrayLike<number>, offset ?: number) : void {
+    this.set(array, offset)
+  }
+
   slice (start ?: number, end ?: number) : Buff {
     const arr = new Uint8Array(this).slice(start, end)
     return new Buff(arr)
-  }
-
-  set (array : ArrayLike<number>, offset ?: number) : void {
-    this.set(array, offset)
   }
 
   subarray (begin ?: number, end ?: number) : Buff {
