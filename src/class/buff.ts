@@ -71,9 +71,18 @@ export default class Buff extends Uint8Array {
     return this.to_uint()
   }
 
-  to_big () : bigint {
-    const bytes = this.uint.reverse()
+  to_big (endian : Endian = 'be') : bigint {
+    const bytes = (endian === 'be')
+      ? this.uint.reverse()
+      : this.uint
     return Lib.bytes_to_big(bytes)
+  }
+
+  to_hex (endian : Endian = 'be') : string {
+    const bytes = (endian === 'be')
+      ? this.uint
+      : this.uint.reverse()
+    return Lib.bytes_to_hex(bytes)
   }
 
   to_json <T = any> (reviver ?: Reviver) : T {
@@ -84,14 +93,15 @@ export default class Buff extends Uint8Array {
     return JSON.parse(str, reviver)
   }
 
-  to_num () : number {
-    const bytes = this.uint.reverse()
+  to_num (endian : Endian = 'be') : number {
+    const bytes = (endian === 'be')
+      ? this.uint.reverse()
+      : this.uint
     return Lib.bytes_to_num(bytes)
   }
 
   to_arr   () : number[]   { return [ ...this ]            }
   to_bin   () : string     { return Lib.bytes_to_bin(this) }
-  to_hex   () : string     { return Lib.bytes_to_hex(this) }
   to_str   () : string     { return Lib.bytes_to_str(this) }
   to_uint  () : Uint8Array { return new Uint8Array(this)   }
 

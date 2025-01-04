@@ -6,8 +6,6 @@ import * as Lib from '@cmdcode/buffy/lib'
 const number  = 4294901760
 const bigint  = BigInt(number)
 const hexstr  = 'ffff0000'
-const hex_be  = 'ffff0000'
-const hex_le  = '0000ffff'
 const uint_be = new Uint8Array([ 255, 255, 0, 0 ])
 const uint_le = new Uint8Array([ 0, 0, 255, 255 ])
 
@@ -30,8 +28,8 @@ export default function endian_test(t : Test) {
     const uint_be_to_big = Buff.uint(uint_be).to_big('be')
     const uint_le_to_big = Buff.uint(uint_le).to_big('le')
 
-    const uint_be_to_hex = Buff.uint(uint_be).to_hex()
-    const uint_le_to_hex = Buff.uint(uint_le).to_hex()
+    const uint_be_to_hex = Buff.uint(uint_be).to_hex('be')
+    const uint_le_to_hex = Buff.uint(uint_le).to_hex('le')
 
     t.plan(12)
 
@@ -50,7 +48,7 @@ export default function endian_test(t : Test) {
     t.equal(uint_be_to_big, bigint, 'uint_be_to_big should match target.')
     t.equal(uint_le_to_big, bigint, 'uint_le_to_big should match target.')
 
-    t.equal(uint_be_to_hex, hex_be, 'uint_be_to_hex should match target.')
-    t.equal(uint_le_to_hex, hex_le, 'uint_le_to_hex should match target.')
+    t.equal(uint_be_to_hex, hexstr, 'uint_be_to_hex should match target.')
+    t.equal(uint_le_to_hex, hexstr, 'uint_le_to_hex should match target.')
   })
 }
