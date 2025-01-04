@@ -35,7 +35,7 @@ import { Buff, Bytes } from '@cmdcode/buffy'
 Classic import into a browser-based project:
 
 ```html
-<script src="https://unpkg.com/@cmdcode/buff/dist/script.js"></script>
+<script src="https://unpkg.com/@cmdcode/buffy/dist/script.js"></script>
 <script>
   const { Buff, Bytes } = window.buff
 </script>
@@ -45,7 +45,7 @@ Modern import into a browser-based project:
 
 ```html
 <script type="module">
-  import { Buff, Bytes } from "https://unpkg.com/@cmdcode/buff/dist/module.mjs" 
+  import { Buff, Bytes } from "https://unpkg.com/@cmdcode/buffy/dist/module.mjs" 
 </script>
 ```
 
