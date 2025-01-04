@@ -61,8 +61,8 @@ type Bytes  = string | number | bigint | Uint8Array | Buff
 // You can optionally specify the endianess of data.
 type Endian = 'le' | 'be'
 
-const bytes = new Buff (
-  data    : Bytes | Bytes[] | ArrayBuffer,  
+const buffer = new Buff (
+  bytes   : Bytes | ArrayBuffer,  
   size   ?: number, // Specify the size of the array (for padding)
   endian ?: Endian  // Specify the endianess of the array.
 )
@@ -72,73 +72,71 @@ You can convert from many different types and formats into a `Buff` object.
 
 ```ts
 Buff
-  .uint    = (data : Uint8Array, size ?: number) => Buff,
-  .str     = (data : string, size ?: number)     => Buff,
-  .hex     = (data : string, size ?: number)     => Buff,
-  .bin     = (data : string, size ?: number)     => Buff,
-  .num     = (data : number, size ?: number)     => Buff,
   .big     = (data : bigint, size ?: number)     => Buff,
+  .bin     = (data : string, size ?: number)     => Buff,
   .bytes   = (data : Bytes,  size ?: number)     => Buff,
-  .json    = (data : T,  replacer ?: Replacer)   => Buff
+  .hex     = (data : string, size ?: number)     => Buff,
+  .json    = (data : T,  replacer ?: Replacer)   => Buff,
+  .num     = (data : number, size ?: number)     => Buff,
+  .str     = (data : string, size ?: number)     => Buff,
+  .uint    = (data : Uint8Array, size ?: number) => Buff
 ```
 
 With `Buff`, you have access to an extensive API for converting between formats.
 
 ```ts
-const bytes = new Buff(data)
+const buffer = new Buff(data)
 
 /* Quicky convert into many formats using getters. */
 
-bytes
-  .num     => number      // Convert to a Number.
+buffer
   .big     => bigint      // Convert to a BigInt.
-  .str     => string      // Convert to a UTF8 string.
-  .hex     => string      // Convert to a hex string.
-  .uint    => Uint8Array  // Convert to a pure Uint8Array.
   .bin     => string      // Convert to a binary string.
+  .hex     => string      // Convert to a hex string.
+  .num     => number      // Convert to a Number.
+  .str     => string      // Convert to a UTF8 string.
+  .uint    => Uint8Array  // Convert to a pure Uint8Array.
 
 /* There are a few export methods that support extra params. */
 
-bytes
-  .to_num  : (endian ?: Endian)   => number
+buffer
   .to_big  : (endian ?: Endian)   => bigint
   .to_bin  : ()                   => string
+  .to_hex  : (endian ?: Endian)   => string
   .to_json : (reviver ?: Reviver) => T
+  .to_num  : (endian ?: Endian)   => number
 ```
 
 In addition to format conversion, you can perform many other convenient tasks.
 
 ```ts
-Buff = {
+Buff
   // Same as Uint8Array.from(), but returns a Buff object.
-  from (data : Uint8Array | number[]) => Buff
+  .from   (data : Uint8Array | number[]) => Buff,
   // Same as Uint8Array.of(), but returns a Buff object.
-  of (...data : number[]) => Buff,
+  .of     (...data : number[]) => Buff,
   // Join together multiple arrays of bytes.
-  join : (array : Bytes[]) => Buff,
+  .join   (array : Bytes[]) => Buff,
   // Sort multiple arrays of bytes in lexicographic order.
-  sort (arr : Bytes[], size ?: number) => Buff[],
+  .sort   (arr : Bytes[], size ?: number) => Buff[],
   // Return a buffer object with random data (uses webcrypto).
-  random (size : number) => Buff,
+  .random (size : number) => Buff,
   // Converts a number into a 'varint' for byte streams.
-  varint : (num : number, endian ?: Endian) => Buff
-}
+  .varint (num : number, endian ?: Endian) => Buff
 
-const bytes = new Buff(data)
+const buffer = new Buff(data)
 
-bytes
+buffer
   // Append data to your ubber object
-  .append (data : Bytes) => Buff
+  .append   (data : Bytes) => Buff
   // Prepend data to your buffer object.
-  .prepend (data : Bytes) => Buff
-  // Encode the size of your buffer as a varint and prepend it.
-  .prefixSize (endian ?: Endian) => Buff
+  .prepend  (data : Bytes) => Buff
   // Same as Uint8Array.reverse(), but returns a Buff object.
-  .reverse () => Buff
+  .reverse  () => Buff
   // Identical to Uint8Array.set() method.
-  .set (array : ArrayLike<number>, offset ?: number) => void
+  .set      (array : ArrayLike<number>, offset ?: number) => void
   // Same as Uint8Array.slice(), but returns a Buff object.
-  .slice (start ?: number, end ?: number) => Buff
+  .slice    (start ?: number, end ?: number) => Buff
   // Same as Uint8Array.subarray(), but returns a Buff object.
   .subarray (begin ?: number, end ?: number) => Buff
 ```
