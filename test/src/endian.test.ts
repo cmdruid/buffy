@@ -1,7 +1,7 @@
 import { Test } from 'tape'
-import { Buff } from '@source/buffy'
+import { Buff } from '@src/buff'
 
-import * as Lib from '@source/buffy/lib'
+import * as Lib from '@src/buff/lib'
 
 const number  = 4294901760
 const bigint  = BigInt(number)

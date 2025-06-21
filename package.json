@@ -1,5 +1,5 @@
 {
-  "name": "@vbyte/buffy",
+  "name": "@vbyte/buff",
   "type": "module",
   "version": "1.0.0",
   "description": "A compact byte manipulation tool.",
