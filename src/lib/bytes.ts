@@ -1,8 +1,32 @@
-import { Assert } from '../util/assert.js'
+import { big_to_bytes } from './big.js'
+import { num_to_bytes } from './num.js'
+import { hex_to_bytes } from './hex.js'
+import { Assert }       from '../util/assert.js'
 
-import type { Endian } from '../types.js'
+import type { Buffable, Endian } from '../types.js'
 
-export function create_buffer (
+export function buffer (
+  bytes   : Buffable | ArrayBuffer,
+  size   ?: number,
+  endian ?: Endian
+) : Uint8Array {
+  if (bytes instanceof ArrayBuffer) {
+    return new Uint8Array(bytes)
+  } else if (bytes instanceof Uint8Array) {
+    return create_bytes(bytes, size, endian)
+  } else if (typeof bytes === 'string') {
+    Assert.is_hex(bytes)
+    return hex_to_bytes(bytes, size, endian)
+  } else if (typeof bytes === 'bigint') {
+    return big_to_bytes(bytes, size, endian)
+  } else if (typeof bytes === 'number') {
+    return num_to_bytes(bytes, size, endian)
+  }
+  throw new TypeError('Input type not supported:' + typeof bytes)
+}
+
+
+export function create_bytes (
   data   : number[] | Uint8Array,
   size  ?: number,
   endian : Endian = 'le'
@@ -15,7 +39,7 @@ export function create_buffer (
   return buffer
 }
 
-export function join_array (
+export function join_bytes (
   arr : Array<Uint8Array | number[]>
 ) : Uint8Array {
   let i, offset = 0
@@ -29,7 +53,7 @@ export function join_array (
   return buff
 }
 
-export function chunk_data (
+export function split_bytes (
   data_blob  : Uint8Array,
   chunk_size : number,
   total_size : number

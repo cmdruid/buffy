@@ -38,3 +38,7 @@ dist
 
 # VS Code
 .vscode
+
+# Other Stuff
+NOTES.md
+TODO.md

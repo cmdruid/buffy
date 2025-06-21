@@ -12,11 +12,7 @@ export namespace Check {
   export function is_bytes (input : any) : input is Bytes {
     if (typeof input === 'string' && is_hex(input)) {
       return true
-    } else if (
-      typeof input === 'number' ||
-      typeof input === 'bigint' ||
-      input instanceof Uint8Array
-    ) {
+    } else if (input instanceof Uint8Array) {
       return true
     } else if (
       Array.isArray(input) &&

@@ -2,20 +2,102 @@ import * as Lib from '../lib/index.js'
 
 import { Assert, Check } from '../util/index.js'
 
-import type { Bytes, Endian, Replacer, Reviver } from '../types.js'
+import type {
+  Buffable,
+  Bytes,
+  Endian,
+  Replacer,
+  Reviver
+} from '../types.js'
 
 export default class Buff extends Uint8Array {
 
-  static num      = num_to_buff
-  static big      = big_to_buff
-  static bin      = bin_to_buff
-  static uint     = uint_to_buff
-  static str      = str_to_buff
-  static hex      = hex_to_buff
-  static bytes    = bytes_to_buff
-  static json     = json_to_buff
-  static blob     = blob_to_buff
-  static is_equal = is_equal_buff
+  static num = (
+    number  : number,
+    size   ?: number,
+    endian ?: Endian
+  ) : Buff => {
+    return new Buff(number, size, endian)
+  }
+
+  static big = (
+    bigint  : bigint,
+    size   ?: number,
+    endian ?: Endian
+  ) : Buff => {
+    return new Buff(bigint, size, endian)
+  }
+
+  static bin = (
+    data    : string,
+    size   ?: number,
+    endian ?: Endian
+  ) : Buff => {
+    const uint = Lib.bin_to_bytes(data)
+    return new Buff(uint, size, endian)
+  }
+
+  static uint = (
+    data    : Uint8Array,
+    size   ?: number,
+    endian ?: Endian
+  ) : Buff => {
+    return new Buff(data, size, endian)
+  }
+
+  static str = (
+    data    : string,
+    size   ?: number,
+    endian ?: Endian
+  ) : Buff => {
+    const uint = Lib.str_to_bytes(data)
+    return new Buff(uint, size, endian)
+  }
+
+  static hex = (
+    data    : string,
+    size   ?: number,
+    endian ?: Endian
+  ) : Buff => {
+    Assert.is_hex(data)
+    return new Buff(data, size, endian)
+  }
+
+  static bytes = (
+    bytes   : Bytes,
+    size?   : number,
+    endian? : Endian
+  ) : Buff => {
+    Assert.is_bytes(bytes)
+    return new Buff(bytes, size, endian)
+  }
+
+  static json = <T>(
+    data      : T,
+    replacer ?: Replacer
+  ) : Buff => {
+    replacer   = replacer ?? Lib.bigint_replacer
+    const str  = JSON.stringify(data, replacer)
+    const uint = Lib.str_to_bytes(str)
+    return new Buff(uint)
+  }
+
+  static blob = (
+    payload    : Bytes,
+    chunk_size : number,
+    total_size : number
+  ) : Buff[] => {
+    const bytes  = Lib.buffer(payload)
+    const chunks = Lib.split_bytes(bytes, chunk_size, total_size)
+    return chunks.map(e => new Buff(e))
+  }
+
+  static is_equal = (
+    a : Buffable,
+    b : Buffable
+  ) : boolean => {
+    return new Buff(a).hex === new Buff(b).hex
+  }
 
   static is_bytes = Check.is_bytes
   static is_hex   = Check.is_hex
@@ -31,15 +113,14 @@ export default class Buff extends Uint8Array {
   }
 
   constructor (
-    data    : Bytes | ArrayBuffer,
+    data    : Buffable | ArrayBuffer,
     size   ?: number,
     endian ?: Endian
   ) {
     if (data instanceof Buff && size === undefined) {
       return data
     }
-
-    const buffer = Lib.parse_bytes(data, size, endian)
+    const buffer = Lib.buffer(data, size, endian)
     super(buffer)
   }
 
@@ -110,7 +191,7 @@ export default class Buff extends Uint8Array {
   }
 
   equals (data : Bytes) : boolean {
-    return bytes_to_buff(data).hex === this.hex
+    return Buff.bytes(data).hex === this.hex
   }
 
   prepend (data : Bytes) : Buff {
@@ -154,12 +235,12 @@ export default class Buff extends Uint8Array {
 
   static join (arr : Bytes[]) : Buff {
     const bytes  = arr.map(e => Buff.bytes(e))
-    const joined = Lib.join_array(bytes)
+    const joined = Lib.join_bytes(bytes)
     return new Buff(joined)
   }
 
   static sort (arr : Bytes[], size ?: number) : Buff[] {
-    const hex = arr.map(e => bytes_to_buff(e, size).hex)
+    const hex = arr.map(e => Buff.bytes(e, size).hex)
     hex.sort()
     return hex.map(e => Buff.hex(e, size))
   }
@@ -177,91 +258,4 @@ export default class Buff extends Uint8Array {
       throw new Error(`Value is too large: ${num}`)
     }
   }
-}
-
-function num_to_buff (
-  number  : number,
-  size   ?: number,
-  endian ?: Endian
-) : Buff {
-  return new Buff(number, size, endian)
-}
-
-function bin_to_buff (
-  data    : string,
-  size   ?: number,
-  endian ?: Endian
-) : Buff {
-  const uint = Lib.bin_to_bytes(data)
-  return new Buff(uint, size, endian)
-}
-
-function big_to_buff (
-  bigint  : bigint,
-  size   ?: number,
-  endian ?: Endian
-) : Buff {
-  return new Buff(bigint, size, endian)
-}
-
-function uint_to_buff (
-  data    : Uint8Array,
-  size   ?: number,
-  endian ?: Endian
-) : Buff {
-  return new Buff(data, size, endian)
-}
-
-function str_to_buff (
-  data    : string,
-  size   ?: number,
-  endian ?: Endian
-) : Buff {
-  const uint = Lib.str_to_bytes(data)
-  return new Buff(uint, size, endian)
-}
-
-function hex_to_buff (
-  data    : string,
-  size   ?: number,
-  endian ?: Endian
-) : Buff {
-  Assert.is_hex(data)
-  return new Buff(data, size, endian)
-}
-
-function json_to_buff <T> (
-  data      : T,
-  replacer ?: Replacer
-) : Buff {
-  replacer   = replacer ?? Lib.bigint_replacer
-  const str  = JSON.stringify(data, replacer)
-  const uint = Lib.str_to_bytes(str)
-  return new Buff(uint)
-}
-
-function bytes_to_buff (
-  bytes   : Bytes,
-  size?   : number,
-  endian? : Endian
-) : Buff {
-  // Assert.is_bytes()
-  return new Buff(bytes, size, endian)
-}
-
-function blob_to_buff (
-  payload    : Bytes,
-  chunk_size : number,
-  total_size : number
-) : Buff[] {
-  const bytes  = Lib.parse_bytes(payload)
-  const chunks = Lib.chunk_data(bytes, chunk_size, total_size)
-  return chunks.map(e => new Buff(e))
-}
-
-function is_equal_buff (
-  a : Bytes,
-  b : Bytes
-) : boolean {
-  return new Buff(a).hex === new Buff(b).hex
 }

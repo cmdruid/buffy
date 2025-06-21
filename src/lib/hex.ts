@@ -2,19 +2,6 @@ import { Assert } from '../util/assert.js'
 
 import type { Endian } from '../types.js'
 
-export function get_hex_size (
-  hexstr  : string,
-  size   ?: number
-) : number {
-  Assert.is_hex(hexstr)
-  const len = hexstr.length / 2
-  if (size === undefined) size = len
-  if (len > size) {
-     throw new TypeError(`Hex string is larger than array size: ${len} > ${size}`)
-  }
-  return size
-}
-
 export function hex_to_bytes (
   hexstr : string,
   size  ?: number,
@@ -45,4 +32,17 @@ export function bytes_to_hex (
     chars += bytes[i].toString(16).padStart(2, '0')
   }
   return chars
+}
+
+function get_hex_size (
+  hexstr  : string,
+  size   ?: number
+) : number {
+  Assert.is_hex(hexstr)
+  const len = hexstr.length / 2
+  if (size === undefined) size = len
+  if (len > size) {
+     throw new TypeError(`Hex string is larger than array size: ${len} > ${size}`)
+  }
+  return size
 }

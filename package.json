@@ -1,5 +1,5 @@
 {
-  "name": "@cmdcode/buffy",
+  "name": "@vbyte/buffy",
   "type": "module",
   "version": "3.0.0",
   "description": "A compact byte manipulation tool.",
