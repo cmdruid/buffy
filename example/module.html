@@ -5,13 +5,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Test</title>
-  <script src="../../dist/script.js"></script>
 </head>
 <body>
-  <script>
-    console.dir(window)
-
-    const { Buff } = window.buffy
+  <script type="module">
+    import { Buff } from '../dist/module.mjs'
 
     const test_hash = Buff.str('testing').hex
     const rand_hash = Buff.random(32).hex

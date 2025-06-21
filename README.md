@@ -12,30 +12,32 @@ Features:
 
 ## How to Import
 
-This library is designed to support classic and modern ESM imports, in both a nodejs and browser environment.
+This library is designed to support classic and modern ESM imports, both in nodejs and a browser environment.
 
-Example install via NPM or yarn:
+Example install via package manager:
 
 ```bash
-npm install @cmdcode/buffy || yarn add @cmdcode/buffy
+npm  install @vbyte/buffy
+bun  install @vbyte/buffy
+yarn add     @vbyte/buffy
 ```
 
 Classic import into a nodejs project:
 
 ```ts
-const { Buff, Bytes } = require('@cmdcode/buffy')
+const { Buff, Bytes } = require('@vbyte/buffy')
 ```
 
 Modern import into an nodejs project:
 
 ```ts
-import { Buff, Bytes } from '@cmdcode/buffy'
+import { Buff, Bytes } from '@vbyte/buffy'
 ```
 
 Classic import into a browser-based project:
 
 ```html
-<script src="https://unpkg.com/@cmdcode/buffy/dist/script.js"></script>
+<script src="https://unpkg.com/@vbyte/buffy/dist/script.js"></script>
 <script>
   const { Buff, Bytes } = window.buff
 </script>
@@ -45,7 +47,7 @@ Modern import into a browser-based project:
 
 ```html
 <script type="module">
-  import { Buff, Bytes } from "https://unpkg.com/@cmdcode/buffy/dist/module.mjs" 
+  import { Buff, Bytes } from "https://unpkg.com/@vbyte/buffy/dist/module.mjs" 
 </script>
 ```
 
@@ -54,15 +56,17 @@ Modern import into a browser-based project:
 The `Buff` class is an extention of the base `Uint8Array` class. It provides the same default functionality of a Uint8Array, and can be used as a drop-in replacement for Uint8Array. Typescript will treat Buff as a Uint8Array object.
 
 ```ts
-import { Buff, Bytes } from '@cmdcode/buffy'
+import { Buff, Bytes } from '@vbyte/buffy'
 
-// Bytes covers value types that are convertable to Uint8Array.
-type Bytes  = string | number | bigint | Uint8Array | Buff
+// Bufferable covers value types that are convertable to Uint8Array.
+type Bufferable = string | number | bigint | Uint8Array | Buff
+// Bytes covers hex strings and byte arrays.
+type Bytes  = string | Uint8Array
 // You can optionally specify the endianess of data.
 type Endian = 'le' | 'be'
 
 const buffer = new Buff (
-  bytes   : Bytes | ArrayBuffer,  
+  bytes   : Bufferable | ArrayBuffer,  
   size   ?: number, // Specify the size of the array (for padding)
   endian ?: Endian  // Specify the endianess of the array.
 )
@@ -144,7 +148,7 @@ buffer
 The `Stream` tool will take a blob of data and allow you to consume it byte-per-byte.
 
 ```ts
-import { Stream } from '@cmdcode/buffy'
+import { Stream } from '@vbyte/buffy'
 
 // Convert data into a stream object.
 const stream = new Stream(data)
@@ -167,10 +171,10 @@ Please feel free to post any questions or bug reports on the issues page!
 
 ## Development / Testing
 
-This project uses `eslint` and `typescript` for development, `tape` for unit tests, and `rollup` for bundling releases.
+This project uses `typescript` for development, `tape` for testing, and `rollup` for release bundles.
 
 ```bash
-npm run test
+npm test
 npm run release
 ```
 

@@ -2,10 +2,10 @@
   "compilerOptions": {
     "baseUrl": "..",
     "paths": {
-      "@/*"                 : [ "src/*" ],
-      "@cmdcode/buffy"      : [ "src/index.js" ],
-      "@cmdcode/buffy/lib"  : [ "src/lib/index.js"  ],
-      "@cmdcode/buffy/util" : [ "src/util/index.js" ],
+      "@/*"                : [ "./src/*" ],
+      "@source/buffy"      : [ "./src/index.js" ],
+      "@source/buffy/lib"  : [ "./src/lib/index.js"  ],
+      "@source/buffy/util" : [ "./src/util/index.js" ]
     },
     "module": "NodeNext",
     "target": "ESNext",
@@ -29,6 +29,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "exclude": [ "node_modules" ],
+  "exclude": [ "node_modules", "dist" ],
   "include": [ "**/*.ts" ]
 }

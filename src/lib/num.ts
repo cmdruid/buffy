@@ -1,6 +1,6 @@
-import { Assert } from '../util/assert.js'
+import { Assert } from '@/util/assert.js'
 
-import type { Endian } from '../types.js'
+import type { Endian } from '@/types.js'
 
 export function get_num_size (
   num : number

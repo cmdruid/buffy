@@ -1,6 +1,6 @@
-import Buff from './buff.js'
+import Buff from '@/class/buff.js'
 
-import type { Bytes, Endian } from '../types.js'
+import type { Bytes, Endian } from '@/types.js'
 
 export default class Stream {
   public size : number

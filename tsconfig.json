@@ -1,18 +1,19 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*" : [ "src/*" ]
+    },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "target": "ESNext",
-    "rootDir": "./src",
     "outDir": "./dist",
-    "sourceMap": true,
     "declaration": true,
-    "declarationMap": true,
     "importHelpers": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": false,
     "skipLibCheck": true,
@@ -26,6 +27,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "exclude": [ "dist", "node_modules", "test" ],
-  "include": ["src/**/*.ts" ]
+  "exclude": [ "dist", "example", "node_modules", "scripts" ],
+  "include": [ "src/**/*.ts" ]
 }

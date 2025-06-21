@@ -1,5 +1,5 @@
 import { Test } from 'tape'
-import { Buff } from '../../src/index.js'
+import { Buff } from '@source/buffy'
 
 const DEBUG = false
 

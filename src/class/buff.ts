@@ -1,6 +1,6 @@
-import * as Lib from '../lib/index.js'
+import * as Lib from '@/lib/index.js'
 
-import { Assert, Check } from '../util/index.js'
+import { Assert, Check } from '@/util/index.js'
 
 import type {
   Buffable,

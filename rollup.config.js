@@ -1,7 +1,7 @@
-import commonjs    from '@rollup/plugin-commonjs'
-import nodeResolve from '@rollup/plugin-node-resolve'
-import terser      from '@rollup/plugin-terser'
-import typescript  from '@rollup/plugin-typescript'
+import commonjs   from '@rollup/plugin-commonjs'
+import resolve    from '@rollup/plugin-node-resolve'
+import terser     from '@rollup/plugin-terser'
+import typescript from '@rollup/plugin-typescript'
 
 const treeshake = {
 	moduleSideEffects       : false,
@@ -45,7 +45,7 @@ export default {
       }
     }
   ],
-  plugins: [ typescript(), nodeResolve(), commonjs() ],
+  plugins: [ typescript(), resolve(), commonjs() ],
   strictDeprecations: true,
   treeshake
 }

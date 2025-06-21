@@ -1,6 +1,6 @@
-import { Check } from './validate.js'
+import { Check } from '@/util/validate.js'
 
-import type { Bytes } from '../types.js'
+import type { Bytes } from '@/types.js'
 
 export namespace Assert {
 

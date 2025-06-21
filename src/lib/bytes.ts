@@ -1,9 +1,9 @@
+import { Assert }       from '@/util/assert.js'
 import { big_to_bytes } from './big.js'
 import { num_to_bytes } from './num.js'
 import { hex_to_bytes } from './hex.js'
-import { Assert }       from '../util/assert.js'
 
-import type { Buffable, Endian } from '../types.js'
+import type { Buffable, Endian } from '@/types.js'
 
 export function buffer (
   bytes   : Buffable | ArrayBuffer,

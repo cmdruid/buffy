@@ -1,5 +1,5 @@
 import { Test } from 'tape'
-import { Buff } from '@/index.js'
+import { Buff } from '@source/buffy'
 
 import { concatBytes } from '@noble/hashes/utils'
 
