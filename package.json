@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "A compact byte manipulation tool.",
   "author": "Christopher Scott",
-  "license": "CC-BY-1.0",
+  "license": "MIT",
   "keywords": [
     "bytes",
     "buffer"
