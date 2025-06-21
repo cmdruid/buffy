@@ -37,7 +37,7 @@ export default {
     {
       file: 'dist/script.js',
       format: 'iife',
-      name: 'buffy',
+      name: 'buff',
       plugins: [ terser() ],
       sourcemap: true,
       globals: {
