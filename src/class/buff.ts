@@ -186,16 +186,16 @@ export default class Buff extends Uint8Array {
   to_str   () : string     { return Lib.bytes_to_str(this) }
   to_uint  () : Uint8Array { return new Uint8Array(this)   }
 
-  append (data : Bytes) : Buff {
-    return Buff.join([ this, Buff.bytes(data) ])
+  append (data : Buffable) : Buff {
+    return Buff.join([ this, new Buff(data) ])
   }
 
-  equals (data : Bytes) : boolean {
-    return Buff.bytes(data).hex === this.hex
+  equals (data : Buffable) : boolean {
+    return new Buff(data).hex === this.hex
   }
 
-  prepend (data : Bytes) : Buff {
-    return Buff.join([ Buff.bytes(data), this ])
+  prepend (data : Buffable) : Buff {
+    return Buff.join([ new Buff(data), this ])
   }
 
   reverse () : this {
@@ -233,14 +233,14 @@ export default class Buff extends Uint8Array {
     return new Buff(Uint8Array.of(...args))
   }
 
-  static join (arr : Bytes[]) : Buff {
-    const bytes  = arr.map(e => Buff.bytes(e))
+  static join (arr : Buffable[]) : Buff {
+    const bytes  = arr.map(e => new Buff(e))
     const joined = Lib.join_bytes(bytes)
     return new Buff(joined)
   }
 
-  static sort (arr : Bytes[], size ?: number) : Buff[] {
-    const hex = arr.map(e => Buff.bytes(e, size).hex)
+  static sort (arr : Buffable[], size ?: number) : Buff[] {
+    const hex = arr.map(e => new Buff(e, size).hex)
     hex.sort()
     return hex.map(e => Buff.hex(e, size))
   }
