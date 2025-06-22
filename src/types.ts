@@ -1,5 +1,5 @@
-import type Buff   from './class/buff.js'
-import type Stream from './class/stream.js'
+import type { Buff }   from './class/buff.js'
+import type { Stream } from './class/stream.js'
 
 export type Buffable = Bytes | number | bigint
 export type Bytes    = string | Uint8Array | Buff | Stream
