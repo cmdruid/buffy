@@ -1,13 +1,13 @@
-import Buff from '@/class/buff.js'
+import { Buff } from '@/class/buff.js'
 
-import type { Bytes, Endian } from '@/types.js'
+import type { Buffable, Endian } from '@/types.js'
 
-export default class Stream {
+export class Stream {
   public size : number
   public data : Uint8Array
 
-  constructor (data : Bytes) {
-    this.data = Buff.bytes(data)
+  constructor (data : Buffable) {
+    this.data = new Buff(data)
     this.size = this.data.length
   }
 

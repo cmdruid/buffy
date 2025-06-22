@@ -1,4 +1,4 @@
-import * as Lib from '@/lib/index.js'
+import * as Lib   from '@/lib/index.js'
 
 import { Assert, Check } from '@/util/index.js'
 
@@ -8,9 +8,9 @@ import type {
   Endian,
   Replacer,
   Reviver
-} from '../types.js'
+} from '@/types.js'
 
-export default class Buff extends Uint8Array {
+export class Buff extends Uint8Array {
 
   static num = (
     number  : number,
@@ -196,6 +196,12 @@ export default class Buff extends Uint8Array {
 
   prepend (data : Buffable) : Buff {
     return Buff.join([ new Buff(data), this ])
+  }
+
+  prefix_varint (endian ?: Endian) : Buff {
+    if (this.length === 0) throw new Error('buffer is empty')
+    const varint = Buff.varint(this.length, endian)
+    return this.prepend(varint)
   }
 
   reverse () : this {
