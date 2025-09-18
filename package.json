@@ -1,7 +1,7 @@
 {
   "name": "@vbyte/buff",
   "type": "module",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A compact byte manipulation tool.",
   "author": "Christopher Scott",
   "license": "MIT",
@@ -45,15 +45,20 @@
   "unpkg": "./dist/script.js",
   "scripts": {
     "build": "./scripts/build.sh",
-    "release": "npm test | faucet && npm run build",
+    "check": "npx tsc --project tsconfig.json --noEmit",
+    "lint": "biome check src/",
+    "package": "./scripts/package.sh",
+    "release": "./scripts/release.sh",
     "scratch": "npm run script test/scratch.ts",
     "script": "tsx --tsconfig ./test/tsconfig.json",
     "test": "npm run script test/tape.ts"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.2.2",
     "@noble/curves": "^1.9.2",
     "@noble/hashes": "^1.8.0",
     "@rollup/plugin-commonjs": "^28.0.6",
+    "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.3",
