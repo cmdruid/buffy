@@ -22,7 +22,7 @@ export function buffer (
   } else if (typeof bytes === 'number') {
     return num_to_bytes(bytes, size, endian)
   }
-  throw new TypeError('Input type not supported:' + typeof bytes)
+  throw new TypeError(`Input type not supported: ${typeof bytes}`)
 }
 
 
@@ -42,7 +42,7 @@ export function create_bytes (
 export function join_bytes (
   arr : Array<Uint8Array | number[]>
 ) : Uint8Array {
-  let i, offset = 0
+  let i : number, offset = 0
   const size = arr.reduce((len, arr) => len + arr.length, 0)
   const buff = new Uint8Array(size)
   for (i = 0; i < arr.length; i++) {

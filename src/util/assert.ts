@@ -15,7 +15,7 @@ export namespace Assert {
 
   export function is_hex (hex : string) : void {
     if (hex.match(/[^a-fA-f0-9]/) !== null) {
-      throw new TypeError('Invalid characters in hex string: ' + hex)
+      throw new TypeError(`Invalid characters in hex string: ${hex}`)
     }
     if (hex.length % 2 !== 0) {
       throw new Error(`Length of hex string is invalid: ${hex.length}`)
@@ -26,7 +26,7 @@ export namespace Assert {
     bytes : Bytes
   ) : asserts bytes is Bytes {
     if (!Check.is_bytes(bytes)) {
-      throw new Error('Bytes contains invalid elements: ' + String(bytes))
+      throw new Error(`Bytes contains invalid elements: ${String(bytes)}`)
     }
   }
 

@@ -117,11 +117,7 @@ export class Buff extends Uint8Array {
     size   ?: number,
     endian ?: Endian
   ) {
-    if (data instanceof Buff && size === undefined) {
-      return data
-    }
-    const buffer = Lib.buffer(data, size, endian)
-    super(buffer)
+    super(Lib.buffer(data, size, endian))
   }
 
   get arr () : number[] {
@@ -166,7 +162,7 @@ export class Buff extends Uint8Array {
     return Lib.bytes_to_hex(bytes)
   }
 
-  to_json <T = any> (reviver ?: Reviver) : T {
+  to_json <T = unknown> (reviver ?: Reviver) : T {
     if (reviver === undefined) {
       reviver = Lib.bigint_reviver
     }

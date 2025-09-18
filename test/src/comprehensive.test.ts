@@ -284,15 +284,15 @@ export default function comprehensiveTest(t: Test) {
       t.plan(4)
 
       const buff1 = new Buff('abcd')
-      const buff2 = new Buff(buff1) // This returns the same instance (optimization)
+      const buff2 = new Buff(buff1) // Now creates new instance (no more optimization)
       const buff3 = buff1.slice(0) // Full slice copy - creates new instance
       const buff4 = new Buff(buff1.uint) // Force new instance from Uint8Array
 
       // Modify buff1's underlying data
       buff1[0] = 0xff
 
-      // buff2 shares the same instance (this is intended behavior)
-      t.equal(buff2[0], 0xff, 'buff2 shares same instance as buff1 (optimization)')
+      // buff2 is now isolated (optimization was removed)
+      t.notEqual(buff2[0], 0xff, 'buff2 should not be affected by buff1 changes (no longer shares instance)')
 
       // buff3 should be isolated (slice creates new buffer)
       t.notEqual(buff3[0], 0xff, 'buff3 should not be affected by buff1 changes')

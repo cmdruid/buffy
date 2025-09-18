@@ -56,13 +56,13 @@ export function bytes_to_big (
   return BigInt(num)
 }
 
-export function bigint_replacer (_ : any, v : any) : any {
+export function bigint_replacer (_ : unknown, v : unknown) : unknown {
   return typeof v === 'bigint'
     ? `${v}n`
     : v
 }
 
-export function bigint_reviver (_ : any, v : any) : any {
+export function bigint_reviver (_ : unknown, v : unknown) : unknown {
   return typeof v === 'string' && /^[0-9]+n$/.test(v)
     ? BigInt(v.slice(0, -1))
     : v

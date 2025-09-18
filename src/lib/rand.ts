@@ -1,5 +1,5 @@
 interface CryptoPolyfill extends Crypto {
-  randomBytes : Function
+  randomBytes : (length: number) => Uint8Array
 }
 
 export function get_random_bytes (length = 32) : Uint8Array {

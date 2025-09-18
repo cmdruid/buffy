@@ -5,5 +5,5 @@ export type Buffable = Bytes | number | bigint
 export type Bytes    = string | Uint8Array | Buff | Stream
 export type Endian   = 'le' | 'be'
 
-export type Replacer = (this : any, key : string, value : any) => any
-export type Reviver  = (this : any, key : string, value : any) => any
+export type Replacer = (this : unknown, key : string, value : unknown) => unknown
+export type Reviver  = (this : unknown, key : string, value : unknown) => unknown

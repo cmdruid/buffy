@@ -9,7 +9,7 @@ export namespace Check {
     )
   }
 
-  export function is_bytes (input : any) : input is Bytes {
+  export function is_bytes (input : unknown) : input is Bytes {
     if (typeof input === 'string' && is_hex(input)) {
       return true
     } else if (input instanceof Uint8Array) {
